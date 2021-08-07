@@ -4,6 +4,10 @@ This tool is designed to be a helpful tool for formatting your calendar availabi
 Now, whenever someone asks you "when are you free next week?", you can easily load up this tool and copy the
 formatted availability into your email without worrying that you missed an appointment.
 
+Now, you can enter long availability listings like "I'm free on Monday (8/9) 9am-1pm and 2-3:30pm; on Tuesday (8/10) 
+10:30am-1pm, 2-3pm, and 4-5pm; and on Wednesday (8/11) 9-10am, 11am-1pm, and 2-5pm" without worying about whether 
+you mis-typed a 1 instead of a 2 and creating a chain of confusion!
+
 ## Installation Requirements
 This tool requires Python 2.6+, with the following dependencies:
 ```pip install pyperclip tkcalendar```
@@ -55,6 +59,11 @@ example, the default 60 minutes ensures that no time slots under an hour are lis
 for errors. The availability will be copied to your clipboard automatically for convenience, however.
    
 7) Finally, click the button at the bottom to begin the process!
+
+## Want to Edit Something?
+Here are the core elements that you might want to edit:
+* Line 19: the calendar ID
+* Line 112-183 (the ```format_availability()``` function): the way the intervals of your free time are formatted into text
 
 ## Caveats
 1)  The code currently can't handle more than one Google Calendar input (e.g. if you have a work and home calendar)
