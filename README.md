@@ -5,7 +5,8 @@ Now, whenever someone asks you "when are you free next week?", you can easily lo
 formatted availability into your email without worrying that you missed an appointment.
 
 Now, you can enter long availability listings like "I'm free on Monday (8/9) 9am-1pm and 2-3:30pm; on Tuesday (8/10) 
-10:30am-1pm, 2-3pm, and 4-5pm; and on Wednesday (8/11) 9-10am, 11am-1pm, and 2-5pm" without worying about whether 
+10:30am-1pm, 2-3pm, and 4-5pm; on Wednesday (8/11) 9-10am, 11am-1pm, and 2-5pm; on Thursday (8/12) 10am-5pm; on Friday 
+(8/13) 9am-12:30pm and 1:30-5pm; and anytime on Saturday (8/14)" without worying about whether 
 you mis-typed a 1 instead of a 2 and creating a chain of confusion!
 
 ## Installation Requirements
