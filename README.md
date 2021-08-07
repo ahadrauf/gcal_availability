@@ -16,6 +16,23 @@ On line 19 of ```main.py```, you should also replace the calendar ID with your o
 calendar ID. You can find where the calendar ID is located 
 [via this tutorial](https://docs.simplecalendar.io/find-google-calendar-id/).
 
+Finally, you'll want to move the executable file ```gcal_availability_formatter.exe``` to somewhere
+indexed by your operating system (e.g. the Downloads folder) so you can call your code via the search
+bar (tested on Windows). The current executable file is customized for my system, however. To set up your
+own similar file, follow the below steps on a Windows system:
+1) Create a shortcut to ```cmd.exe``` (usually located in ```C:\Windows\System32```). Move the shortcut to 
+   somewhere indexed by your operating system (e.g. the Downloads folder).
+2) Right click the shortcut > Properties
+   1) Target: ```%windir%\System32\cmd.exe "/K" C:\Users\ahadrauf\anaconda3\Scripts\activate.bat C:\Users\ahadrauf\anaconda3\envs\python37 & python main.py & exit```
+      1) As you can see from this line, the shortcut will (1) Open a Command terminal, (2) Activate an Anaconda environment 
+      called python37, (3) Run ```main.py``` within this Anaconda environment, and (4) exit the terminal once
+         you exit out of the GUI. You can replace the Anaconda-specific lines with your configuration.
+   2) Location: the location of this folder
+   
+This separation of the shortcut and the code is for simplicity's sake, since Windows doesn't index files in
+all locations - this allows you to have the code in a separate location, while just keeping the shortcut in an
+indexed file location.
+
 ## Interface
 ![Picture of the GCal Availability tool interface](images/gcal_availability_interface.png)
 
@@ -39,3 +56,7 @@ for errors. The availability will be copied to your clipboard automatically for 
    
 7) Finally, click the button at the bottom to begin the process!
 
+## Caveats
+1)  The code currently can't handle more than one Google Calendar input (e.g. if you have a work and home calendar)
+
+2) The code currently can't handle all-day events (it just skips over any of these)
