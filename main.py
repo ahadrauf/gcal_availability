@@ -14,12 +14,12 @@ from google.oauth2.credentials import Credentials
 # import pyperclip
 
 # Go to Google Calendar > Calendar Settings > Look up Calendar ID
-# calendars = ["primary",
-#              "al4md8n2a6jlkno1hd71t8blco@group.calendar.google.com"]
-calendars = ["al4md8n2a6jlkno1hd71t8blco@group.calendar.google.com"]  # Currently only supports one calendar
+calendars = ["primary",
+             "al4md8n2a6jlkno1hd71t8blco@group.calendar.google.com"]
+# calendars = ["al4md8n2a6jlkno1hd71t8blco@group.calendar.google.com"]  # Currently only supports one calendar
 
 # If modifying these scopes, delete the file token.json.
-SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+SCOPES = ['https://www.googleapis.com/auth/calendar.readonly', 'https://www.googleapis.com/auth/drive.metadata.readonly']
 
 
 def subtract_time(t1, t2):
@@ -28,7 +28,7 @@ def subtract_time(t1, t2):
     return d1 - d2
 
 
-def get_events(calendar_id, startTime, endTime):
+def get_events(calendar_ids, startTime, endTime):
     creds = None
     # The file token.json stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
@@ -38,6 +38,7 @@ def get_events(calendar_id, startTime, endTime):
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
+            print("Trying refresh")
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
@@ -52,11 +53,15 @@ def get_events(calendar_id, startTime, endTime):
     # Call the Calendar API
     startTimeStr = startTime.isoformat()
     endTimeStr = endTime.isoformat()
-    events_result = service.events().list(calendarId=calendar_id,
-                                          timeMin=startTimeStr, timeMax=endTimeStr, singleEvents=True,
-                                          orderBy='startTime').execute()
-    events = events_result.get('items', [])
-    return events
+    all_events = []
+    for calendar_id in calendar_ids:
+        events_result = service.events().list(calendarId=calendar_id,
+                                              timeMin=startTimeStr, timeMax=endTimeStr, singleEvents=True,
+                                              orderBy='startTime').execute()
+        events = events_result.get('items', [])
+        all_events.extend(events)
+    all_events.sort(key=lambda event: datetime.strptime(event['start'].get('dateTime'), '%Y-%m-%dT%H:%M:%S%z'))
+    return all_events
 
 
 def parse_availability(event_list, start_date, end_date, start_time, end_time, buffer_before, buffer_after,
@@ -306,7 +311,7 @@ def run():
     end = datetime.combine(end_date, end_time).replace(tzinfo=timezone(timedelta(hours=-7)))
     allowed_days = [d.get() for d in days[1:]] + [days[0].get()]  # datetime.weekday() puts Sunday last
 
-    events = get_events(calendars[0], start, end)
+    events = get_events(calendars, start, end)
     # for event in events:
     #     print(event)
     intervals = parse_availability(events, start_date, end_date, start_time, end_time,
